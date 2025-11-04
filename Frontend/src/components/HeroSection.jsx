@@ -2,8 +2,12 @@ import React from 'react';
 import backgroundImage from '../assets/backgroundImage.png';
 import { assets } from '../assets/assets';
 import { ArrowRight, Calendar1Icon, Clock10Icon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+
+    const navigate = useNavigate()
+
   return (
     <div
       className="flex flex-col items-start justify-center gap-6 px-6 md:px-16 lg:px-36 bg-cover bg-center h-screen"
@@ -38,7 +42,10 @@ const HeroSection = () => {
       </p>
 
       {/* ----------- Explore Button ----------- */}
-      <button className='flex items-center gap-1 px-6 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer'>
+      <button 
+      className='flex items-center gap-1 px-6 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer'
+      onClick={()=> navigate('./movies')}
+      >
         Explore Movies
         <ArrowRight className='w-5 h-5'/>
       </button>
