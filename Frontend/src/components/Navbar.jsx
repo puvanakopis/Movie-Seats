@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { Search, Menu, X, TicketPlus } from 'lucide-react'
 import { useClerk, UserButton, useUser } from '@clerk/clerk-react'
@@ -10,6 +10,13 @@ const Navbar = () => {
     const { user } = useUser()
     const { openSignIn } = useClerk()
     const navigate = useNavigate()
+    const location = useLocation()
+
+    // Function to check if link is active
+    const isActive = (path) =>
+        location.pathname === path
+            ? "text-primary font-semibold"
+            : "text-white/80 hover:text-white"
 
     return (
         <div className='fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5'>
@@ -19,24 +26,56 @@ const Navbar = () => {
                 <img src={assets.logo} alt="Logo" />
             </Link>
 
-
             {/* ----------- Mobile / Desktop Menu ----------- */}
             <div className={`max-md:absolute max-md:top-0 max-md:left-0 max-md:font-medium max-md:text-lg z-50 flex flex-col md:flex-row items-center max-md:justify-center gap-8 md:px-8 py-3 max-md:h-screen md:rounded-full backdrop-blur bg-black/70 md:bg-white/10 md:border border-gray-300/20 overflow-hidden transition-[width] duration-300 ${isOpen ? 'max-md:w-full' : "max-md:w-0"}`}>
 
-                {/* ----------- Close Button (Mobile) ----------- */}
+                {/* ----------- Close Button ----------- */}
                 <X
                     className='md:hidden absolute top-5 right-6 w-6 h-6 cursor-pointer'
                     onClick={() => setIsOpen(!isOpen)}
                 />
 
                 {/* ----------- Nav Links ----------- */}
-                <Link onClick={() => { scrollTo(0, 0); setIsOpen(false) }} to="/">Home</Link>
-                <Link onClick={() => { scrollTo(0, 0); setIsOpen(false) }} to="/movies">Movies</Link>
-                <Link onClick={() => { scrollTo(0, 0); setIsOpen(false) }} to="/">Theaters</Link>
-                <Link onClick={() => { scrollTo(0, 0); setIsOpen(false) }} to="/">Releases</Link>
-                <Link onClick={() => { scrollTo(0, 0); setIsOpen(false) }} to="/faverite">Faverite</Link>
-            </div>
+                <Link
+                    to="/"
+                    onClick={() => { scrollTo(0, 0); setIsOpen(false) }}
+                    className={`${isActive("/")} transition`}
+                >
+                    Home
+                </Link>
 
+                <Link
+                    to="/movies"
+                    onClick={() => { scrollTo(0, 0); setIsOpen(false) }}
+                    className={`${isActive("/movies")} transition`}
+                >
+                    Movies
+                </Link>
+
+                <Link
+                    to="/"
+                    onClick={() => { scrollTo(0, 0); setIsOpen(false) }}
+                    className={`${isActive("/theaters")} transition`}
+                >
+                    Theaters
+                </Link>
+
+                <Link
+                    to="/"
+                    onClick={() => { scrollTo(0, 0); setIsOpen(false) }}
+                    className={`${isActive("/releases")} transition`}
+                >
+                    Releases
+                </Link>
+
+                <Link
+                    to="/favorite"
+                    onClick={() => { scrollTo(0, 0); setIsOpen(false) }}
+                    className={`${isActive("/favorite")} transition`}
+                >
+                    Favorite
+                </Link>
+            </div>
 
             {/* ----------- Search + Login ----------- */}
             <div className='flex items-center gap-8'>
@@ -59,9 +98,7 @@ const Navbar = () => {
                         </UserButton.MenuItems>
                     </UserButton>
                 )}
-
             </div>
-
 
             {/* ----------- Hamburger Menu ----------- */}
             <div>
